@@ -1,6 +1,9 @@
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { Task } from './task/task';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { TaskDialogResult } from './task-dialog/task-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +19,11 @@ export class AppComponent {
     }, 
     {
       title: "Hashnode", 
-      description: "Write tech article on Angular Dev Tools"
+      description: "Write Tech Article on Angular Dev Tools"
+    }, 
+    {
+      title: "Grocery Shop",
+      description: "Go & Buy Dairy Products"
     }
   ];
   inProgress: Task[] = [];
@@ -36,5 +43,19 @@ export class AppComponent {
         event.previousIndex,
         event.currentIndex
       );
+    }
+
+    constructor(private dialog: MatDialog) {}
+
+    newTask(): void {
+      const dialogRef = this.dialog.open(TaskDialogComponent, {
+        width: '270px',
+        data: {
+          task: {},
+        },
+      });
+      dialogRef
+        .afterClosed()
+        .subscribe((result: TaskDialogResult) => this.todo.push(result.task));
     }
 }
