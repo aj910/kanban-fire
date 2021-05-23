@@ -29,21 +29,7 @@ export class AppComponent {
   inProgress: Task[] = [];
   done: Task[] = [];
 
-  editTask(list: string, task: Task): void {}
-    drop(event: CdkDragDrop<Task[] | null>): void {
-      if (event.previousContainer === event.container) {
-        return;
-      }
-      if (!event.container.data || !event.previousContainer.data) {
-        return;
-      }
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
+  
 
     constructor(private dialog: MatDialog) {}
 
@@ -57,5 +43,39 @@ export class AppComponent {
       dialogRef
         .afterClosed()
         .subscribe((result: TaskDialogResult) => this.todo.push(result.task));
+    }
+
+    editTask(list: 'done' | 'todo' | 'inProgress', task: Task): void {
+      const dialogRef = this.dialog.open(TaskDialogComponent, {
+        width: '270px',
+        data: {
+          task,
+          enableDelete: true,
+        },
+      });
+      dialogRef.afterClosed().subscribe((result: TaskDialogResult) => {
+        const dataList = this[list];
+        const taskIndex = dataList.indexOf(task);
+
+        if (result.delete) {
+          dataList.splice(taskIndex, 1);
+        } else {
+          dataList[taskIndex] = task;
+        }
+      });
+    }
+    drop(event: CdkDragDrop<Task[] | null>): void {
+      if (event.previousContainer === event.container) {
+        return;
+      }
+      if (!event.container.data || !event.previousContainer.data) {
+        return;
+      }
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
 }

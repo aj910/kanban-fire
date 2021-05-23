@@ -9,6 +9,13 @@
 </mat-form-field>
 
 <div mat-dialog-actions>
-    <button matButton [mat-dialog-close]="{ task: data.task}">OK</button>
-    <button matButton (click)="cancel()">Cancel</button>
+    <button
+        *ngIf="data.enableDelete"
+        mat-fab
+        color="primary"
+        aria-label="Delete"
+        [mat-dialog-close]="{ task: data.task, delete: true}">
+        <mat-icon>delete</mat-icon>
+    </button>
+    
 </div>

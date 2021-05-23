@@ -22,7 +22,7 @@ mat-toolbar > span {
 }
 
 .list {
-    border: solid 1px #ccc;
+    border: solid 2px #000;
     min-height: 60px;
     border-radius: 4px;
 }
@@ -32,7 +32,7 @@ app-new-task {
 }
 
 .empty-label {
-    font-size: 2em;
+    font-size: 1.5em;
     padding-top: 10px;
     text-align: center;
     opacity: 0.2;
